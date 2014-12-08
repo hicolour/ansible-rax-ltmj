@@ -20,7 +20,7 @@
         networks:
           - public
           - private
-        region: ORD
+        region: LON
         state: present
         wait: yes
       register: rax
