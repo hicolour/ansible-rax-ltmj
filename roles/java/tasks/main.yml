@@ -7,7 +7,7 @@
   tags:
     - java
 - name: Extract java 7
-    yum: name=jdk-7u51-linux-x64.rpm state=installed chdir=/tmp 
+  yum: name='jdk-7u51-linux-x64.rpm' state=installed chdir=/tmp
   tags:
     - java
 
