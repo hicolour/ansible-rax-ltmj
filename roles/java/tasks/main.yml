@@ -1,13 +1,79 @@
 ---
-- name: Download Java
+# Java tasks first
+
+# Full URLs can be found here https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/
+- name: Download Java {{ java_version }}
   shell: 'wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com"
-    "http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-x64.rpm"
-    -O /tmp/jdk-7u51-linux-x64.rpm creates=/tmp/jdk-7u51-linux-x64.rpm'
+    "http://download.oracle.com/otn-pub/java/jdk/{{ java_version }}-{{ java_build }}/{{ jdk_or_jre }}-{{ java_version }}-linux-x{{ ansible_userspace_bits }}.{{ java_ext }}"
+    -O /tmp/{{ jdk_or_jre }}_{{ java_version }}.{{ java_ext }} creates=/tmp/{{ jdk_or_jre }}_{{ java_version }}.{{ java_ext }}'
   register: jdk_downloaded
+  when: not openjdk|bool
   tags:
     - java
 - name: Extract java 7
-  yum: name=/tmp/jdk-7u51-linux-x64.rpm state=present
+  shell: tar xzf /tmp/{{ jdk_or_jre }}_{{ java_version }}.{{ java_ext }}
+    chdir=/opt
+  when: jdk_downloaded|changed and java_ext == "tar.gz"
   tags:
     - java
-
+- name: Update Java permissions
+  file: path=/opt/{{ jdk_or_jre }}1.{{ java_version|replace('u','.0_') }}
+    owner=root group=root recurse=yes mode=0755
+  tags:
+    - java
+- name: Make java 6 executable
+  file: path=/tmp/{{ jdk_or_jre }}_{{ java_version }}.{{ java_ext }}
+    mode=0755
+  when: jdk_downloaded|changed and java_ext == "bin"
+  tags:
+    - java
+- name: Create temporary java answers file
+  copy: src=answers dest=/tmp/answers mode=0644
+  when: jdk_downloaded|changed and java_ext == "bin"
+  tags:
+    - java
+- name: Extract java 6
+  shell: /tmp/{{ jdk_or_jre }}_{{ java_version }}.{{ java_ext }} < /tmp/answers &>/dev/null
+    chdir=/opt creates=/opt/{{ jdk_or_jre }}1.{{ java_version|replace('u','.0_') }}/bin/java
+  when: jdk_downloaded|changed and java_ext == "bin"
+  tags:
+    - java
+- name: Delete java answers file
+  file: path=/tmp/answers state=absent
+# Not necessary but sometimes nice to have
+- name: Create java symlink
+  file: path=/opt/java state=link src={{ java_home }}
+  when: jdk_downloaded|changed
+  tags:
+    - java
+- name: Delete temporary java files
+  file: path=/tmp/{{ jdk_or_jre }}_{{ java_version }}.{{ java_ext }} state=absent
+  ignore_errors: yes
+  when: jdk_downloaded|changed
+  tags:
+    - java
+- name: Setup Java (EL)
+  shell: /usr/sbin/alternatives --install /usr/bin/java java /opt/{{ jdk_or_jre }}1.{{ java_version|replace('u','.0_') }}/bin/java 5
+  when: jdk_downloaded|changed
+  tags:
+    - java
+- name: Configure java (EL)
+  shell: /usr/sbin/alternatives --set java {{ java_home }}/bin/java
+  when:  jdk_downloaded|changed and ansible_os_family == 'RedHat'
+  tags:
+    - java
+- name: Setup java (Debian)
+  shell: /usr/sbin/update-alternatives --set java {{ java_home }}/bin/java
+  when: jdk_downloaded|changed and ansible_os_family == 'Debian'
+  tags:
+    - java
+- name: Install openjdk (EL)
+  yum: name=java-1.{{ java_version|replace('u','.') }}-openjdk state=present
+  when: openjdk|bool and ansible_os_family == 'RedHat'
+  tags:
+    - java
+- name: Install openjdk (Debian)
+  yum: name=java-1.{{ java_version|replace('u','.') }}-openjdk state=present
+  when: openjdk|bool and ansible_os_family == 'Debian'
+  tags:
+    - java
