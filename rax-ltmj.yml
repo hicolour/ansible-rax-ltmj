@@ -39,14 +39,15 @@
     - name: Wait few seconds before connection
       wait_for: port=22 delay=20
 
-- name: Install magento, MySQL, httpd, PHP and Varnish
+- name: Install Java, MySQL, Tomcat
   hosts: web
 
   roles:
     - common
-    - { role: mysql, when: db_choice == 'mysql' }
-    - { role: percona, when: db_choice == 'percona' }
-    - httpd
+    - java
+#    - { role: mysql, when: db_choice == 'mysql' }
+#    - { role: percona, when: db_choice == 'percona' }
+#    - httpd
 #    - php
 #    - { role: varnish, when: varnish_install == 'install' }
 #    - { role: magento, when: magento_install == 'install' }

@@ -1,0 +1,13 @@
+---
+- name: Download Java
+  shell: 'wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com"
+    "http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-x64.rpm"
+    -O /tmp/jdk-7u51-linux-x64.rpm creates=/tmp/jdk-7u51-linux-x64.rpm'
+  register: jdk_downloaded
+  tags:
+    - java
+- name: Extract java 7
+    yum: name=jdk-7u51-linux-x64.rpm state=installed chdir=/tmp 
+  tags:
+    - java
+
