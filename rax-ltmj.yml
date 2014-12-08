@@ -13,7 +13,7 @@
       local_action:
         module: rax
         credentials: ~/.raxpub
-        name: magento
+        name: test
         flavor: 2
         image: 41e59c5f-530b-423c-86ec-13b23de49288
         disk_config: manual
