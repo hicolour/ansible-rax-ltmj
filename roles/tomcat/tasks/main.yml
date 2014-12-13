@@ -1,12 +1,12 @@
 ---
 
-- name: Stop tomcat just in case
-  shell: 'pkill -f tomcat'
-  ignore_errors: True
-  tags:
-    - tomcat
-  when:
-- service: name=tomcat state=stopped
+#- name: Stop tomcat just in case
+#  shell: 'pkill -f tomcat'
+#  ignore_errors: True
+#  tags:
+#    - tomcat
+#  when:
+#- service: name=tomcat state=stopped
 
 - name: Create tomcat group
   group: name=tomcat state=present
