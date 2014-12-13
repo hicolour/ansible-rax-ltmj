@@ -79,10 +79,11 @@
   when: openjdk|bool and ansible_os_family == 'Debian'
   tags:
     - java
- - name: Allow java to open port < 1024 (EL)
-   shell: setcap 'cap_net_bind_service=+ep' {{ java_home }}/bin/java
-   when:  jdk_downloaded|changed and ansible_os_family == 'RedHat'
-   tags:
-     - java
+
+- name: Allow java to open port < 1024 (EL)
+  shell: setcap 'cap_net_bind_service=+ep' {{ java_home }}/bin/java
+  when:  jdk_downloaded|changed and ansible_os_family == 'RedHat'
+  tags:
+    - java
 
 
