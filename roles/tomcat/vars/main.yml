@@ -3,7 +3,7 @@
 # Make sure your versions are compatible http://tomcat.apache.org/whichversion.html
 tomcat_version: '7.0.53' #7.0.52 latest 7.X release, 6.0.39 latest 6.x release
 
-http_port: 8080
+http_port: 80
 https_port: 8443
 
 # Environment variables
