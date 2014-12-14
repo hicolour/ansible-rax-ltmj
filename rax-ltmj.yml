@@ -68,7 +68,7 @@
 
   roles:
 #    - common
-    - test
+#    - test
     - java
     - tomcat
 #    - { role: mysql, when: db_choice == 'mysql' }
