@@ -38,5 +38,5 @@ varnish_install: install
 
 
 host_domain: amartus.io
-host_group: test
+host_group: testx
 host_id: 1
