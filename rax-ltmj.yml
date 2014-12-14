@@ -12,7 +12,7 @@
     - name: Server create request
       local_action:
         module: rax
-        name: "{{ host_group }}-{{ host_id }}"
+        name: "{{ host_group }}-%04d.{{host_domain}}"
         flavor: 2
         image: 41e59c5f-530b-423c-86ec-13b23de49288
         disk_config: manual
@@ -30,7 +30,7 @@
       local_action:
         module: rax_dns_record
         domain: "amartus.io"
-        name: "test1.amartus.io"
+        name: "{{ item.name }}"
         data: "{{ item.rax_accessipv4 }}"
         type: A
       register: rax_dns_record
