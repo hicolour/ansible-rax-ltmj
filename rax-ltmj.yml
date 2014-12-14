@@ -64,7 +64,7 @@
 
 - name: Install Java, MySQL, Tomcat
   hosts: test
-
+  gather_facts: False
 
   roles:
 #    - common
