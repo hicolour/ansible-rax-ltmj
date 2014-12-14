@@ -1,2 +1,2 @@
 - name: test that the required service are listening
-  wait_for: port=22 host={{ hostname }} delay=20 timeout=300
+  wait_for: port=22 host=test-001.amartus.io delay=20 timeout=300
