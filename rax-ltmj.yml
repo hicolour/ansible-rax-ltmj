@@ -61,7 +61,7 @@
 
 - name: Install Java, MySQL, Tomcat
   hosts: test
-
+  tasks:
     - name: Wait few seconds before connection
       wait_for: host={{ item.name }} port=22 delay=60
 
