@@ -80,14 +80,14 @@
   tags:
     - java
 
-- name: Allow java to open port < 1024 (EL)
-  shell: setcap 'cap_net_bind_service=+ep' {{ java_home }}/bin/java
-  when:  ansible_os_family == 'RedHat'
-  tags:
-    - java
-
-- name: Add java bin to PATH < 1024 (EL)
-  shell: echo 'export PATH=$PATH:{{ java_home }}/bin' >> /etc/profile; source /etc/profile;
-  when:  ansible_os_family == 'RedHat'
-  tags:
-    - java
+#- name: Allow java to open port < 1024 (EL)
+#  shell: setcap 'cap_net_bind_service=+ep' {{ java_home }}/bin/java
+#  when:  ansible_os_family == 'RedHat'
+#  tags:
+#    - java
+#
+#- name: Add java bin to PATH < 1024 (EL)
+#  shell: echo 'export PATH=$PATH:{{ java_home }}/bin' >> /etc/profile; source /etc/profile;
+#  when:  ansible_os_family == 'RedHat'
+#  tags:
+#    - java
