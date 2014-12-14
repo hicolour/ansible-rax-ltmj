@@ -1,0 +1,2 @@
+- name: test that the required service are listening
+  wait_for: port={{ item.port }} host={{ item.host }} delay=20 timeout=300
