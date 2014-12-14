@@ -57,7 +57,7 @@
       when: rax.action == 'create'
 
     - name: Wait few seconds before connection
-      wait_for: host={{ hostname }} port=22 delay=60
+      wait_for: port={{ item.port }} host={{ item.host }} timeout=30
 
 #    - name: Wait few seconds before connection
 #      wait_for: port=22 delay=60
