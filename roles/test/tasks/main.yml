@@ -1,2 +1,2 @@
 - name: test that the required service are listening
-  wait_for: port=22 host=testx-001.amartus.io delay=200 timeout=600
+  wait_for: port=22 host=testx-001.amartus.io delay=300 timeout=600

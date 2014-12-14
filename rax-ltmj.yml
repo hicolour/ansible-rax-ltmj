@@ -68,9 +68,9 @@
 
   roles:
 #    - common
-#    - test
-    - java
-    - tomcat
+    - test
+#    - java
+#    - tomcat
 #    - { role: mysql, when: db_choice == 'mysql' }
 #    - { role: percona, when: db_choice == 'percona' }
 #    - httpd
