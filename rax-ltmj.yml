@@ -28,9 +28,6 @@
       local_action:
         module: add_host
         hostname: "{{ item.name }}"
-        ansible_ssh_host: "{{ item.rax_accessipv4 }}"
-        ansible_ssh_pass: "{{ item.rax_adminpass }}"
-        ansible_ssh_user: root
         groupname: test
       with_items: rax.instances
       when: rax.action == 'create'
@@ -39,9 +36,6 @@
       local_action:
         module: rax_dns_record
         domain: "{{ host_domain }}"
-        ansible_ssh_host: "{{ item.rax_accessipv4 }}"
-        ansible_ssh_pass: "{{ item.rax_adminpass }}"
-        ansible_ssh_user: root
         name: "{{ host_group }}-{{ host_id }}.{{ host_domain }}"
         data: "{{ item.rax_accessipv4 }}"
         type: A
