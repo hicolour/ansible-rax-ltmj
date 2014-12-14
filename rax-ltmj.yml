@@ -12,7 +12,7 @@
     - name: Server create request
       local_action:
         module: rax
-        name: "{{ host_group }}-%04d.{{host_domain}}"
+        name: "{{ host_group }}-%03d.{{host_domain}}"
         flavor: 2
         image: 41e59c5f-530b-423c-86ec-13b23de49288
         disk_config: manual
