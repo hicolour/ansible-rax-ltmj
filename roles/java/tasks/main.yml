@@ -86,4 +86,13 @@
   tags:
     - java
 
+- name: Add java bin to PATH < 1024 (EL)
+  shell: echo 'export PATH=$PATH:{{ java_home }}/bin' >> /etc/profile; source /etc/profile;
+  when:  ansible_os_family == 'RedHat'
+  tags:
+    - java
+
+
+
+export PATH=$PATH:/usr/java/jdk1.5.0_07/bin
 
