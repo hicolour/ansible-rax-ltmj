@@ -56,11 +56,9 @@
       with_items: rax.instances
       when: rax.action == 'create'
 
-
-
-- name: Wait few seconds before connection
-  hosts: test
-  wait_for: port=22 delay=60
+    - name: Wait few seconds before connection
+      hosts: test
+      wait_for: port=22 delay=60
 
 - name: Install Java, MySQL, Tomcat
   hosts: test
