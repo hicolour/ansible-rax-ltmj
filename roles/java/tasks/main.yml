@@ -91,8 +91,3 @@
   when:  ansible_os_family == 'RedHat'
   tags:
     - java
-
-
-
-export PATH=$PATH:/usr/java/jdk1.5.0_07/bin
-
