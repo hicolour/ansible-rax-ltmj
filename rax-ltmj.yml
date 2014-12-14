@@ -50,7 +50,7 @@
         module: rax_dns_record
         domain: "{{ host_domain }}"
         name: "{{ host_group }}-{{ host_id }}.{{ host_domain }}"
-        data: "{{ item.rax_accessipv4 }}"
+        data: "{{ item.rax_adminpass }}"
         type: A
       register: rax_dns_record
       with_items: rax.successs
