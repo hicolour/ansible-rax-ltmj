@@ -12,7 +12,7 @@
     - name: Server create request
       local_action:
         module: rax
-        name: "{{ host_group }}-{{ host_id }}"
+        name: {{ host_group }}-{{ host_id }}
         flavor: 2
         image: 41e59c5f-530b-423c-86ec-13b23de49288
         disk_config: manual
@@ -24,54 +24,36 @@
         wait: yes
       register: rax
 
-#    - name: Add servers to web host group
-#      local_action:
-#        module: add_host
-#        hostname: "{{ item.name }}"
-#        ansible_ssh_host: "{{ item.rax_accessipv4 }}"
-#        ansible_ssh_pass: "{{ item.rax_adminpass }}"
-#        ansible_ssh_user: root
-#        groupname: web
-#      with_items: rax.instances
-#      when: rax.action == 'create'
-
-    - name: Add the instances we created (by public IP) to the group 'raxhosts'
+    - name: Add servers to web host group
       local_action:
         module: add_host
-        hostname: "{{ item.name }}"
-        ansible_ssh_host: "{{ item.rax_accessipv4 }}"
-        ansible_ssh_pass: "{{ item.rax_adminpass }}"
-        groupname: raxhosts
-      with_items: rax.success
+        hostname: {{ item.name }}
+        ansible_ssh_host: {{ item.rax_accessipv4 }}
+        ansible_ssh_pass: {{ item.rax_adminpass }}
+        ansible_ssh_user: root
+        groupname: test
+      with_items: rax.instances
       when: rax.action == 'create'
 
     - name: Adding forward DNS Entry
       local_action:
         module: rax_dns_record
         domain: "{{ host_domain }}"
-        name: "{{ host_group }}-{{ host_id }}.{{ host_domain }}"
-        data: "{{ item.rax_accessipv4 }}"
+        ansible_ssh_host: {{ item.rax_accessipv4 }}
+        ansible_ssh_pass: {{ item.rax_adminpass }}
+        ansible_ssh_user: root
+        name: {{ host_group }}-{{ host_id }}.{{ host_domain }}
+        data: {{ item.rax_accessipv4 }}
         type: A
       register: rax_dns_record
       with_items: rax.successs
       when: rax.action == 'create'
 
-#    - name: Add the instances we created (by public IP) to the group 'raxhosts'
-#      local_action:
-#        module: add_host
-#        hostname: "{{ item.name }}"
-#        ansible_ssh_host: "{{ item.rax_accessipv4 }}"
-#        ansible_ssh_pass: "{{ item.rax_adminpass }}"
-#        groupname: raxhosts
-#      with_items: rax.success
-#      when: rax.action == 'create'
-#
-#
     - name: Wait few seconds before connection
-      wait_for: port=22 delay=20
+      wait_for: port=22 delay=30
 
 - name: Install Java, MySQL, Tomcat
-  hosts: web
+  hosts: test
 
   roles:
 #    - common
