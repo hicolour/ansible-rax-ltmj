@@ -24,14 +24,6 @@
         wait: yes
       register: rax
 
-    - name: Add servers to web host group
-      local_action:
-        module: add_host
-        hostname: "{{ item.name }}"
-        groupname: test
-      with_items: rax.instances
-      when: rax.action == 'create'
-
     - name: Adding forward DNS Entry
       local_action:
         module: rax_dns_record
@@ -41,6 +33,14 @@
         type: A
       register: rax_dns_record
       with_items: rax.successs
+      when: rax.action == 'create'
+
+    - name: Add servers to web host group
+      local_action:
+        module: add_host
+        hostname: "{{ item.name }}"
+        groupname: test
+      with_items: rax.instances
       when: rax.action == 'create'
 
     - name: Wait few seconds before connection
