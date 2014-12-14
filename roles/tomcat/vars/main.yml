@@ -19,7 +19,3 @@ tomcat_user_home: /{{ catalina_home }}
 tomcat_uid: '500'
 manager_user: manager-gui
 manager_password: managersecret
-
-host_domain: amartus.io
-host_group: test
-host_id: 1

@@ -37,3 +37,6 @@ sample_data: install
 varnish_install: install
 
 
+host_domain: amartus.io
+host_group: test
+host_id: 1
