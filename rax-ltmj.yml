@@ -21,19 +21,32 @@
           - private
         region: LON
         state: present
+        group: test
         wait: yes
+        wait_timeout: 360
       register: rax
 
     - name: Adding forward DNS Entry
       local_action:
         module: rax_dns_record
-        domain: "{{ host_domain }}"
-        name: "{{ host_group }}-{{ host_id }}.{{ host_domain }}"
-        data: "{{ rax_accessipv4 }}"
+        domain: "amartus.io"
+        name: "test1.amartus.io"
+        data: "{{ item.rax_accessipv4 }}"
         type: A
       register: rax_dns_record
-      with_items: rax.successs
+      with_items: rax.success
       when: rax.action == 'create'
+
+#    - name: Adding forward DNS Entry
+#      local_action:
+#        module: rax_dns_record
+#        domain: "{{ host_domain }}"
+#        name: "{{ host_group }}-{{ host_id }}.{{ host_domain }}"
+#        data: "{{ item.rax_accessipv4 }}"
+#        type: A
+#      register: rax_dns_record
+#      with_items: rax.successs
+#      when: rax.action == 'create'
 
     - name: Add servers to web host group
       local_action:
